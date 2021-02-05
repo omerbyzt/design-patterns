@@ -31,30 +31,30 @@
 
     _OperationAdd_
 
-          public class OperationAdd implements Strategy{
-            @Override
-            public int doOperation(int num1, int num2) {
-                 return num1 + num2;
-            }
-          }
+              public class OperationAdd implements Strategy{
+                @Override
+                public int doOperation(int num1, int num2) {
+                     return num1 + num2;
+                }
+              }
 
     _OperationSubstract_
 
-        public class OperationSubstract implements Strategy{
-          @Override
-          public int doOperation(int num1, int num2) {
-              return num1 - num2;
-          }
-        }
+            public class OperationSubstract implements Strategy{
+              @Override
+              public int doOperation(int num1, int num2) {
+                  return num1 - num2;
+              }
+            }
 
     _OperationMultiply_
 
-        public class OperationMultiply implements Strategy{
-          @Override
-          public int doOperation(int num1, int num2) {
-              return num1 * num2;
-          }
-        }
+            public class OperationMultiply implements Strategy{
+              @Override
+              public int doOperation(int num1, int num2) {
+                  return num1 * num2;
+              }
+            }
 
 &NewLine;
 3. Ardından **Context** sınıfımızı oluşturuyoruz.
