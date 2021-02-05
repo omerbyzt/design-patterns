@@ -9,53 +9,63 @@ Somut bir örnek ile açıklayalım.
 * Amacımız gönderdiğimiz işlemi karşılayıp yapılak işlemleri tek bir yerden kontrol edecek bir Dispatcher yazmak olacak.
 
 1. Öncelikle 2 ayrı class yazalım.
-&NewLine;
-TeacherView
-
+ 
+	&NewLine;
+	TeacherView
+    ```
     class TeacherView {
-        public void display() {
-            System.out.println("Teacher View");
+            public void display() {
+                System.out.println("Teacher View");
+            }
         }
-    }
-
-  StudentView
-
-    class StudentView {
-        public void display() {
-            System.out.println("Student View");
+    ```
+    
+    StudentView
+    ```
+        class StudentView {
+            public void display() {
+                System.out.println("Student View");
+            }
         }
-    }
+    ```
+
 * Bu sınıflarımız 2 farklı objedir.İçlerinde birbirinden farklı fonksiyonlar olabilir.
 
 2. Dispatcing sınıfımızı oluşturalım.
-&NewLine;
-Dispatching
 
-    class Dispatching {
-        private StudentView studentView;
-        private TeacherView teacherView;
+    &NewLine;
+    Dispatching  
 
-        public Dispatching() {
-            studentView = new StudentView();
-            teacherView = new TeacherView();
-        }
+    ```
+        class Dispatching {
+            private StudentView studentView;
+            private TeacherView teacherView;
 
-        public void dispatch(String request) {
-            if (request.equalsIgnoreCase("Student")) {
-                studentView.display();
-            } else {
-                teacherView.display();
+            public Dispatching() {
+                studentView = new StudentView();
+                teacherView = new TeacherView();
+            }
+
+            public void dispatch(String request) {
+                if (request.equalsIgnoreCase("Student")) {
+                    studentView.display();
+                } else {
+                    teacherView.display();
+                }
             }
         }
-    }
+    ```
+
 
 * Bu sınıfımız görüldüğü üzere 2 obje sınıfımızın **instance**'ını oluşturuyor.
 * Burayı yönetecek olan **FrontController** sınıfından gelecek olan isteğe göre _StudentView_ veya _TeacherView_ objelerinin birinin **display** metodunu çalıştırılacak.
 
 3. FrontController sınıfızımı ekleyelim.
-&NewLine;
-FrontController
 
+    &NewLine;
+    FrontController
+
+    ```
     class FrontController {
         private Dispatching Dispatching;
 
@@ -80,17 +90,20 @@ FrontController
             }
         }
     }
+    ```
+   
 
 * Bu sınıfımız mainden gelen istekleri karşılayacak olan sınıftır.
 * Dispatching sınıfının instance'ı burada oluşturulmuştur.
 * Gelen her istek için istenildiği gibi çalışan farklı metodlar burada **dispatchRequest()** sınıfının içinde çağırılabilir.
 
 4. Son olarak main metodumuz ile uygulamamızı çalıştıralım.
-&NewLine;
-FrontControllerPattern
 
-```
-class FrontControllerPattern
+    &NewLine;
+    FrontControllerPattern
+
+    ```
+    class FrontControllerPattern
     {
         public static void main(String[] args)
         {
@@ -99,7 +112,8 @@ class FrontControllerPattern
             frontController.dispatchRequest("Student");
         }
     }
-```
+
+    ```
 
 * Main metodumuz içinden sadece FrontController instance'ını oluştururuz ve içine bir parametre vererek **dispatchRequest()** metodunu çalıştırırız.
 * Bu metod FrontController sınıfında yer alır. Gelen her istekte çalıştırılmak istenilen fonksiyonlar var ise bu metod içerisinde çağrılır.
