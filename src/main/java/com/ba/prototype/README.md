@@ -11,41 +11,42 @@
 * Daha somut bir örnek ile açıklayalım.
 
 1. Uye classımızı oluşturalım
-Uye
 
+    Uye
+    ```
     public class Uye implements Cloneable {
 
-        private List<String> uyeListesi;
+            private List<String> uyeListesi;
 
-        public Uye() {
-            uyeListesi = new ArrayList<String>();
-        }
-
-        public Uye(List<String> liste) {
-            this.uyeListesi = liste;
-        }
-
-        public void uyeEkle() {
-
-            uyeListesi.add("Burak");
-            uyeListesi.add("Ahmet");
-            uyeListesi.add("Mehmet");
-        }
-
-        public List<String> getUyeListesi() {
-            return uyeListesi;
-        }
-
-        @Override
-        public Object clone() throws CloneNotSupportedException {
-            List<String> uyeListesi = new ArrayList<String>();
-            for (String s : this.getUyeListesi()) {
-                uyeListesi.add(s);
+            public Uye() {
+                uyeListesi = new ArrayList<String>();
             }
-            return new Uye(uyeListesi);
-        }
-    }
 
+            public Uye(List<String> liste) {
+                this.uyeListesi = liste;
+            }
+
+            public void uyeEkle() {
+
+                uyeListesi.add("Burak");
+                uyeListesi.add("Ahmet");
+                uyeListesi.add("Mehmet");
+            }
+
+            public List<String> getUyeListesi() {
+                return uyeListesi;
+            }
+
+            @Override
+            public Object clone() throws CloneNotSupportedException {
+                List<String> uyeListesi = new ArrayList<String>();
+                for (String s : this.getUyeListesi()) {
+                    uyeListesi.add(s);
+                }
+                return new Uye(uyeListesi);
+            }
+        }
+    ```
 * Bu sınıf içinde öncelikle **Cloneable** interface'ini implement ediyoruz.
 
 * Ardından üyelerimizi tutacak olan listemizi **private** tanımlıyoruz ve constructor'larını oluşturuyoruz.
