@@ -15,150 +15,150 @@ Kullanımına ihtiyaç duyulan durum şudur :
 
 1. ### Eager Initialization
 
-  Bu yaklaşımımızda uygulamamız ayağa kalkarken nesnemiz oluşturulmaktadır.
+    Bu yaklaşımımızda uygulamamız ayağa kalkarken nesnemiz oluşturulmaktadır.
 
-  ```
-  public class SingletonOrnek {
+    ```
+    public class SingletonOrnek {
 
-      private static SingletonOrnek nesne = new SingletonOrnek();
+        private static SingletonOrnek nesne = new SingletonOrnek();
 
-      private SingletonOrnek() {
-      }
+        private SingletonOrnek() {
+        }
 
-      public static SingletonOrnek getNesne() {
-          return nesne;
-      }
-  }
-  ```
-  Classımızda oluşan nesnemiz uygulama oluşturulduğunda bir değişken oluşturulur.
+        public static SingletonOrnek getNesne() {
+            return nesne;
+        }
+    }
+    ```
+    Classımızda oluşan nesnemiz uygulama oluşturulduğunda bir değişken oluşturulur.
 
 &NewLine;
 
 2. ### Static Block Initialization
 
-  Eager Initialization’un aynısı diyebiliriz. Uygulama başladığında nesnemiz oluşturulur ancak burada oluşturulmuş ya da oluşturalacak nesnemiz üzerinde kontrol mekanizması oluşturabiliriz.
+    Eager Initialization’un aynısı diyebiliriz. Uygulama başladığında nesnemiz oluşturulur ancak burada oluşturulmuş ya da oluşturalacak nesnemiz üzerinde kontrol mekanizması oluşturabiliriz.
 
-  ```
-  public class SingletonOrnek {
+      ```
+      public class SingletonOrnek {
 
-      private static SingletonOrnek nesne;
+          private static SingletonOrnek nesne;
 
-      static {
-        try {
-            nesne= new SingletonOrnek();
-            } catch (IOException e) {
-                throw new RuntimeException("Hata", e);
-            }
+          static {
+            try {
+                nesne= new SingletonOrnek();
+                } catch (IOException e) {
+                    throw new RuntimeException("Hata", e);
+                }
+          }
+
+          private SingletonOrnek() {
+          }
+
+          public static SingletonOrne getNesne() {
+              return nesne;
+          }
       }
+      ```
 
-      private SingletonOrnek() {
-      }
-
-      public static SingletonOrne getNesne() {
-          return nesne;
-      }
-  }
-  ```
-
-  Static bir nesne oluşturarak hata işlemlerini yakalabilmekteyiz.
+      Static bir nesne oluşturarak hata işlemlerini yakalabilmekteyiz.
 
 &NewLine;
 
 3. ### Lazy Initialization
 
-  Bu Singleton Pattern yaklaşımında nesnemiz biz isteğimiz zaman oluşturulmakta ve aynı nesnenin oluşup oluşmadığı kontrol ederek eğer oluşmadıysa nesnenin oluşturulmasını sağlamaktayız.
+    Bu Singleton Pattern yaklaşımında nesnemiz biz isteğimiz zaman oluşturulmakta ve aynı nesnenin oluşup oluşmadığı kontrol ederek eğer oluşmadıysa nesnenin oluşturulmasını sağlamaktayız.
 
-  ```
-  public class SingletonOrnek {
+      ```
+      public class SingletonOrnek {
 
-  private static SingletonOrnek nesne;
+      private static SingletonOrnek nesne;
 
-      private SingletonOrnek() {
+          private SingletonOrnek() {
+          }
+
+          public static SingletonOrnek getNesne() {
+            if (null == nesne) {
+                nesne= new SingletonOrnek();
+            }
+            return nesne;
+          }
       }
-
-      public static SingletonOrnek getNesne() {
-        if (null == nesne) {
-            nesne= new SingletonOrnek();
-        }
-        return nesne;
-      }
-  }
-  ```
-  Bu sayede “aynı nesnenin ikinci kez” oluşturulmasının da önüne geçiyoruz.
+      ```
+      Bu sayede “aynı nesnenin ikinci kez” oluşturulmasının da önüne geçiyoruz.
 
 &NewLine;
 
 4.  ### Lazy Initialization ve Double Check Locking
 
-  Uygulamamızda Lazy Initialization yapısı kullanarak bir Singleton Pattern oluşturduk. Uygulamamızda ikinci kez nesnemizin oluşturulmasını engellemek için kontrol mekanizmasını genişlettiğimiz yaklaşımdır.
+    Uygulamamızda Lazy Initialization yapısı kullanarak bir Singleton Pattern oluşturduk. Uygulamamızda ikinci kez nesnemizin oluşturulmasını engellemek için kontrol mekanizmasını genişlettiğimiz yaklaşımdır.
 
-  ```
-  public class DoubleCheckedLocking {
+      ```
+      public class DoubleCheckedLocking {
 
-    private volatile static DoubleCheckedLocking nesne;
+        private volatile static DoubleCheckedLocking nesne;
 
-    private DoubleCheckedLocking() {
+        private DoubleCheckedLocking() {
+              }
+
+        public static DoubleCheckedLocking getNesne() {
+          if (nesne== null) {
+            synchronized (DoubleCheckedLocking.class) {
+              if (nesne == null) {
+                nesne = new DoubleCheckedLocking();
+              }
+            }
           }
-
-    public static DoubleCheckedLocking getNesne() {
-      if (nesne== null) {
-        synchronized (DoubleCheckedLocking.class) {
-          if (nesne == null) {
-            nesne = new DoubleCheckedLocking();
-          }
+          return nesne;
         }
       }
-      return nesne;
-    }
-  }
-  ```
+      ```
 
 &NewLine;
 
  5. ### Bill Pugh Singleton
 
-  Bu yaklaşımda static nested class oluşturarak nesnemizin üretilmesini sağlamaktayız.
+      Bu yaklaşımda static nested class oluşturarak nesnemizin üretilmesini sağlamaktayız.
 
-  ```
-  public class SingletonBillPugh {
+      ```
+      public class SingletonBillPugh {
 
-      private SingletonBillPugh() {
+          private SingletonBillPugh() {
+          }
+
+          private static class SingletonHolder {
+              public static final SingletonBillPugh nesne = new SingletonBillPugh();
+          }
+
+          public static SingletonBillPugh getInstance() {
+              return SingletonHolder.instance;
+          }
       }
-
-      private static class SingletonHolder {
-          public static final SingletonBillPugh nesne = new SingletonBillPugh();
-      }
-
-      public static SingletonBillPugh getInstance() {
-          return SingletonHolder.instance;
-      }
-  }
-  ```
+      ```
 
 &NewLine;
 
  6. ### Thread Safe Singleton
 
-  Bu yaklaşımda uygulamamıza birden çok aynı anda nesne oluşturulması işleminde aynı anda istek gelse bile sadece birtanesinin işlenmesi sonra diğerini işleme alarak nesnemiz oluştuysa tekrar oluşturulmasını engellemek için yapıtığımız bir Singleton Pattern yaklaşımıdır.
+      Bu yaklaşımda uygulamamıza birden çok aynı anda nesne oluşturulması işleminde aynı anda istek gelse bile sadece birtanesinin işlenmesi sonra diğerini işleme alarak nesnemiz oluştuysa tekrar oluşturulmasını engellemek için yapıtığımız bir Singleton Pattern yaklaşımıdır.
 
-  ```
-  public class ThreadSafeSingleton {
+      ```
+      public class ThreadSafeSingleton {
 
-      private static ThreadSafeSingleton nesne;
+          private static ThreadSafeSingleton nesne;
 
-      private ThreadSafeSingleton(){}
+          private ThreadSafeSingleton(){}
 
-      public static synchronized ThreadSafeSingleton getNesne(){
+          public static synchronized ThreadSafeSingleton getNesne(){
 
-          if(nesne== null){
-              nesne = new ThreadSafeSingleton();
+              if(nesne== null){
+                  nesne = new ThreadSafeSingleton();
+              }
+              return nesne;
           }
-          return nesne;
-      }
 
-  }
-  ```
-  Bu yaklaşımda uygulamamızda bu nesne için oluşturmak isteyen birden fazla isteği synchronized yaparak sıraya sokuyoruz ve oluşmadı ise nesnemizi oluşturuyoruz.
+      }
+      ```
+      Bu yaklaşımda uygulamamızda bu nesne için oluşturmak isteyen birden fazla isteği synchronized yaparak sıraya sokuyoruz ve oluşmadı ise nesnemizi oluşturuyoruz.
 
 &NewLine;
 
