@@ -18,83 +18,82 @@
 &NewLine;
 1. Öncelikle bir Strategy interface'i oluşturmakla işe başlayalım.
 
-_Strategy_
+    _Strategy_
 
-      public interface Strategy {
-        public int doOperation(int num1, int num2);
-      }
+          public interface Strategy {
+            public int doOperation(int num1, int num2);
+          }
 
-* Bu interface'i implement eden tüm classlarımızda **doOperation** adında bir metod olmasını istiyoruz.
+    * Bu interface'i implement eden tüm classlarımızda **doOperation** adında bir metod olmasını istiyoruz.
 
 &NewLine;
 2. Interface'imizi implement eden birden fazla class oluşturalım.
 
-_OperationAdd_
+    _OperationAdd_
 
-      public class OperationAdd implements Strategy{
-        @Override
-        public int doOperation(int num1, int num2) {
-             return num1 + num2;
+          public class OperationAdd implements Strategy{
+            @Override
+            public int doOperation(int num1, int num2) {
+                 return num1 + num2;
+            }
+          }
+
+    _OperationSubstract_
+
+        public class OperationSubstract implements Strategy{
+          @Override
+          public int doOperation(int num1, int num2) {
+              return num1 - num2;
+          }
         }
-      }
 
-_OperationSubstract_
+    _OperationMultiply_
 
-    public class OperationSubstract implements Strategy{
-      @Override
-      public int doOperation(int num1, int num2) {
-          return num1 - num2;
-      }
-    }
-
-_OperationMultiply_
-
-    public class OperationMultiply implements Strategy{
-      @Override
-      public int doOperation(int num1, int num2) {
-          return num1 * num2;
-      }
-    }
+        public class OperationMultiply implements Strategy{
+          @Override
+          public int doOperation(int num1, int num2) {
+              return num1 * num2;
+          }
+        }
 
 &NewLine;
 3. Ardından **Context** sınıfımızı oluşturuyoruz.
 
+    _Context_
 
-_Context_
+        public class Context {
+          private Strategy strategy;
 
-    public class Context {
-      private Strategy strategy;
+          public Context(Strategy strategy){
+              this.strategy = strategy;
+          }
 
-      public Context(Strategy strategy){
-          this.strategy = strategy;
-      }
+          public int executeStrategy(int num1, int num2){
+              return strategy.doOperation(num1, num2);
+          }
+        }
 
-      public int executeStrategy(int num1, int num2){
-          return strategy.doOperation(num1, num2);
-      }
-    }
-
-* Bu sınıfta strategy'imizi seçip o strategy'nin **doOperation** metodunu çağırıyoruz.
+    * Bu sınıfta strategy'imizi seçip o strategy'nin **doOperation** metodunu çağırıyoruz.
 
 &NewLine;
 4. Son olarak main metodunda **Context** oluşturuken **Strategy** seçip kodumuzu çalıştırıyoruz.
 
-_StrategyPatternDemo_
+    _StrategyPatternDemo_
 
-    public class StrategyPatternDemo {
-      public static void main(String[] args) {
-          Context context = new Context(new OperationAdd());
-          System.out.println("10 + 5 = " + context.executeStrategy(10, 5));
+        public class StrategyPatternDemo {
+          public static void main(String[] args) {
+              Context context = new Context(new OperationAdd());		
+              System.out.println("10 + 5 = " + context.executeStrategy(10, 5));
 
-          context = new Context(new OperationSubstract());
-          System.out.println("10 - 5 = " + context.executeStrategy(10, 5));
+              context = new Context(new OperationSubstract());		
+              System.out.println("10 - 5 = " + context.executeStrategy(10, 5));
 
-          context = new Context(new OperationMultiply());
-          System.out.println("10 * 5 = " + context.executeStrategy(10, 5));
-      }
-    }
+              context = new Context(new OperationMultiply());		
+              System.out.println("10 * 5 = " + context.executeStrategy(10, 5));
+          }
+        }
 
-* Context'i oluştururken stratejimizi seçip istediğimiz class'a ait **doOperation** metodunun çalışmasını sağlayabiliyoruz. Böylelikle istediğimiz strateji arasında kolaylıkla seçim veya değişiklik yapabiliyoruz.
+    * Context'i oluştururken stratejimizi seçip istediğimiz class'a ait **doOperation** metodunun çalışmasını sağlayabiliyoruz. Böylelikle istediğimiz strateji arasında kolaylıkla seçim veya değişiklik yapabiliyoruz.
 
 ## Kaynaklar
 
