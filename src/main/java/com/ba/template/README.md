@@ -17,88 +17,96 @@ Daha somut bir örnek ile açıklayalım.
 * Amacımız oyunun initilize, start, ve end metodlarının sırasıyla çalışmasını sağlamaktır.
 
 1. Abstract class'ımızı oluşturarak başlayalım.
-&NewLine;
-Game
 
+    &NewLine;
+    Game
+    ```
     public abstract class Game {
-        abstract void initialize();
-        abstract void startPlay();
-        abstract void endPlay();
+            abstract void initialize();
+            abstract void startPlay();
+            abstract void endPlay();
 
-        //template method
-        public final void play() {
+            //template method
+            public final void play() {
 
-            //initialize the game
-            initialize();
+                //initialize the game
+                initialize();
 
-            //start game
-            startPlay();
+                //start game
+                startPlay();
 
-            //end game
-            endPlay();
+                //end game
+                endPlay();
+            }
         }
-    }
+    ```
 
 * Burada dikkat etmemiz gereken kısım **play()** metodumuzdur.
 
 * Bu metod yukarıda imzaları yazılmış olan 3 tane metodun sırayla çağrılmasını sağlar.
 
 2. Abstract class'ımız extend eden class'larımızı oluşturalım.
-&NewLine;
-Cricket
 
+    &NewLine;
+    Cricket
+    
+    ```
     public class Cricket extends Game {
 
-        @Override
-        void endPlay() {
-            System.out.println("Cricket Game Finished!");
+            @Override
+            void endPlay() {
+                System.out.println("Cricket Game Finished!");
+            }
+
+            @Override
+            void initialize() {
+                System.out.println("Cricket Game Initialized! Start playing.");
+            }
+
+            @Override
+            void startPlay() {
+                System.out.println("Cricket Game Started. Enjoy the game!");
+            }
         }
-
-        @Override
-        void initialize() {
-            System.out.println("Cricket Game Initialized! Start playing.");
-        }
-
-        @Override
-        void startPlay() {
-            System.out.println("Cricket Game Started. Enjoy the game!");
-        }
-    }
-
-  Football
-
+    ```
+ 	 Football
+    ```
     public class Football extends Game {
 
-        @Override
-        void endPlay() {
-            System.out.println("Football Game Finished!");
-        }
+            @Override
+            void endPlay() {
+                System.out.println("Football Game Finished!");
+            }
 
-        @Override
-        void initialize() {
-            System.out.println("Football Game Initialized! Start playing.");
-        }
+            @Override
+            void initialize() {
+                System.out.println("Football Game Initialized! Start playing.");
+            }
 
-        @Override
-        void startPlay() {
-            System.out.println("Football Game Started. Enjoy the game!");
+            @Override
+            void startPlay() {
+                System.out.println("Football Game Started. Enjoy the game!");
+            }
         }
-    }
+    ```
 
 3. Son olarak main metodumuzu yazalım.
-&NewLine;
-TemplatePatternDemo
 
+    &NewLine;
+    TemplatePatternDemo
+    ```
     public class TemplatePatternDemo {
-        public static void main(String[] args) {
+            public static void main(String[] args) {
 
-            Game game = new Cricket();
-            game.play();
-            System.out.println();
-            game = new Football();
-            game.play();
-        }
+                Game game = new Cricket();
+                game.play();
+                System.out.println();
+                game = new Football();
+                game.play();
+            }
     }
+    ```
+    
 
 
 * Main metodumuz oyunun instance'ını oluşturur ve **play()** metodu çağırılır.
