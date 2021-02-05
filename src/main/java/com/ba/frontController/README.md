@@ -88,8 +88,8 @@ FrontController
 4. Son olarak main metodumuz ile uygulamamızı çalıştıralım.
 &NewLine;
 FrontControllerPattern
-
-    class FrontControllerPattern
+```
+class FrontControllerPattern
     {
         public static void main(String[] args)
         {
@@ -98,6 +98,7 @@ FrontControllerPattern
             frontController.dispatchRequest("Student");
         }
     }
+```
 
 * Main metodumuz içinden sadece FrontController instance'ını oluştururuz ve içine bir parametre vererek **dispatchRequest()** metodunu çalıştırırız.
 * Bu metod FrontController sınıfında yer alır. Gelen her istekte çalıştırılmak istenilen fonksiyonlar var ise bu metod içerisinde çağrılır.
