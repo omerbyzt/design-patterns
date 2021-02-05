@@ -88,6 +88,7 @@ FrontController
 4. Son olarak main metodumuz ile uygulamamızı çalıştıralım.
 &NewLine;
 FrontControllerPattern
+
 ```
 class FrontControllerPattern
     {
