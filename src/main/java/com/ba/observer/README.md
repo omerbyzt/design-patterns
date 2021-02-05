@@ -5,9 +5,9 @@
 
 &NewLine;
 
-Observer pattern, 3 aktör sınıf kullanır. Bu sınıflar; Subject, Observer ve Client sınıflarıdır.
+Observer pattern, 3 aktör sınıf kullanır. Bu sınıflar; Subject, Observer ve Client sınıflarıdır. 
 
-1. **Subject**: İçerisinde gözlemci listesini tutar ve bu listeye ekleme yapmayı sağlayan _Attach()_ metotunu barındırır. Ayrıca _Notify()_ metodu ile ilgili gözlemciye bildirim gönderilmesini sağlar.
+1. **Subject**: İçerisinde gözlemci listesini tutar ve bu listeye ekleme yapmayı sağlayan _Attach()_ metotunu barındırır. Ayrıca _Notify()_ metodu ile ilgili gözlemciye bildirim gönderilmesini sağlar. 
 
 2. **Observer**: Bir interface’dir. İçerisinde _update()_ metodu bulunur. Bu sınıftan miras alacak olan gözlemciler de mecburen içlerinde update() metodunu barındırırlar. Alt sınıfların ortak bir interface’den faydalanması amaçlanır.
 
@@ -21,106 +21,119 @@ Daha somut bir örnek ile açıklayalım.
 1. **Bir Subject sınıfı oluştur.**
 
     Subject
+    ```
+    import java.util.ArrayList;
+            import java.util.List;
 
-        import java.util.ArrayList;
-        import java.util.List;
+            public class Subject {
 
-        public class Subject {
+                private List<Observer> observers = new ArrayList<Observer>();
+                private int state;
 
-            private List<Observer> observers = new ArrayList<Observer>();
-            private int state;
+                public int getState() {
+                    return state;
+                }
+                public void setState(int state) {
+                    this.state = state;
+                    notifyAllObservers();
+                }
 
-            public int getState() {
-                return state;
-            }
-            public void setState(int state) {
-                this.state = state;
-                notifyAllObservers();
-            }
+                public void attach(Observer observer){
+                    observers.add(observer);
+                }
 
-            public void attach(Observer observer){
-                observers.add(observer);
-            }
-
-            public void notifyAllObservers(){
-                for (Observer observer : observers) {
-                    observer.update();
+                public void notifyAllObservers(){
+                    for (Observer observer : observers) {
+                        observer.update();
+                    }
                 }
             }
-        }
+    ```
 
 2. **Bir Observer sınıfı oluştur.**
 
-  Observer
+    Observer
+    ```
+    public abstract class Observer {
+            protected Subject subject;
+            public abstract void update();
+          }
 
-      public abstract class Observer {
-        protected Subject subject;
-        public abstract void update();
-      }
-
+    ```
+      
 3. **Abstract sınıfımızı kullanacak sınıflarımız oluşturulur.**
-BinaryObserver
+ 
+    BinaryObserver
 
+    ```
     public class BinaryObserver extends Observer{
-        public BinaryObserver(Subject subject){
+            public BinaryObserver(Subject subject){
+                this.subject = subject;
+                this.subject.attach(this);
+            }
+
+            @Override
+            public void update() {
+                System.out.println("Binary String: " + Integer.toBinaryString(subject.getState()));
+            }
+        }
+    ```
+    
+    OctalObserver
+
+    ```
+    public class OctalObserver extends Observer{
+
+        public OctalObserver(Subject subject){
             this.subject = subject;
             this.subject.attach(this);
         }
 
         @Override
         public void update() {
-            System.out.println("Binary String: " + Integer.toBinaryString(subject.getState()));
+            System.out.println("Octal String: " + Integer.toOctalString(subject.getState()));
         }
     }
+    ```
+    
+      HexaObserver
+    ```
+    public class HexaObserver extends Observer{
+              public HexaObserver(Subject subject){
+                  this.subject = subject;
+                  this.subject.attach(this);
+              }
 
-  OctalObserver.java
-
-      public class OctalObserver extends Observer{
-          public OctalObserver(Subject subject){
-              this.subject = subject;
-              this.subject.attach(this);
+              @Override
+              public void update() {
+                  System.out.println("Hex String: " + Integer.toHexString(subject.getState() ).toUpperCase());
+              }
           }
-
-          @Override
-          public void update() {
-              System.out.println("Octal String: " + Integer.toOctalString(subject.getState()));
-          }
-      }
-
-  HexaObserver
-
-      public class HexaObserver extends Observer{
-          public HexaObserver(Subject subject){
-              this.subject = subject;
-              this.subject.attach(this);
-          }
-
-          @Override
-          public void update() {
-              System.out.println("Hex String: " + Integer.toHexString(subject.getState() ).toUpperCase());
-          }
-      }
+    ```
+      
 
 4. **Son olarak main metodunda kodumuzu çalıştıralım.**
-ObserverPatternDemo
 
+    ObserverPatternDemo
+    ```
     public class ObserverPatternDemo {
-      public static void main(String[] args) {
+          public static void main(String[] args) {
 
-            Subject subject = new Subject();
+                Subject subject = new Subject();
 
-            new HexaObserver(subject);
-            new OctalObserver(subject);
-            new BinaryObserver(subject);
+                new HexaObserver(subject);
+                new OctalObserver(subject);
+                new BinaryObserver(subject);
 
-            System.out.println("First state change: 15");
-            subject.setState(15);
-            System.out.println("**********************");
+                System.out.println("First state change: 15");
+                subject.setState(15);
+                System.out.println("**********************");
 
-            System.out.println("Second state change: 10");
-            subject.setState(10);
-        }
-    }
+                System.out.println("Second state change: 10");
+                subject.setState(10);
+            }
+     }
+    ```
 
 * Öncelikle **Subject** classımızın bir instance'ı oluşturuldu.
 
